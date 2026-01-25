@@ -1,0 +1,10 @@
+release/CommandParser.o
+release/AddTaskCommand.o
+release/CompleteTaskCommand.o
+release/ListTasksCommand.o
+release/RemoveTaskCommand.o
+release/Task.o
+release/TaskManager.o
+release/main.o
+release/mainwindow.o
+release/moc_mainwindow.o

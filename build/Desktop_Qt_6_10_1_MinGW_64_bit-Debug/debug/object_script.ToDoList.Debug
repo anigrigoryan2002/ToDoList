@@ -1,0 +1,10 @@
+debug/CommandParser.o
+debug/AddTaskCommand.o
+debug/CompleteTaskCommand.o
+debug/ListTasksCommand.o
+debug/RemoveTaskCommand.o
+debug/Task.o
+debug/TaskManager.o
+debug/main.o
+debug/mainwindow.o
+debug/moc_mainwindow.o
