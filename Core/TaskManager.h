@@ -10,6 +10,9 @@ public:
     bool completeTask(const std::string& name);
     std::vector<Task> listTasks() const;
     int tasksCount() const;
+    int pendingTasksCount() const;
+    bool setCompleted(const std::string& name, bool completed);
+
 private:
     std::vector<Task> tasks;
 };

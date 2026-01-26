@@ -1,3 +1,4 @@
+release/CommandFactory.o
 release/CommandParser.o
 release/AddTaskCommand.o
 release/CompleteTaskCommand.o

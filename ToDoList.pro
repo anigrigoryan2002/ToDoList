@@ -1,7 +1,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+QMAKE_CXXFLAGS += -Wall -Wextra -Wreturn-type
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Core/CommandFactory.cpp \
     Core/CommandParser.cpp \
     Core/Commands/AddTaskCommand.cpp \
     Core/Commands/CompleteTaskCommand.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     Core/Command.h \
+    Core/CommandFactory.h \
     Core/CommandParser.h \
     Core/Commands/AddTaskCommand.h \
     Core/Commands/CompleteTaskCommand.h \

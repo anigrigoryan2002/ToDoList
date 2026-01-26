@@ -5,7 +5,7 @@
 class RemoveTaskCommand: public Command
 {
 public:
-    RemoveTaskCommand(TaskManager &manager, std::string &name);
+    RemoveTaskCommand(TaskManager &manager, const std::string &name);
     std::string execute() override;
 private:
     TaskManager& taskManager;

@@ -1,8 +1,12 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
 #include <QMainWindow>
+#include <QLabel>
+#include <QListWidget>
+#include <QLineEdit>
+#include <QTextEdit>
+#include <QPushButton>
 
+#include "core/TaskManager.h"
+#include "core/CommandParser.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -16,8 +20,20 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+private slots:
+    void handleCommand();
+    void handleTaskChecked(QListWidgetItem* item);
+    void refreshTaskList();
 
 private:
-    Ui::MainWindow *ui;
+    QLabel* titleLabel;
+    QListWidget* taskList;
+    QTextEdit* logOutput;
+    QLineEdit* commandInput;
+    QPushButton* executeButton;
+    TaskManager taskManager;
+    CommandParser parser{taskManager};
+    void showStatus(const QString& message, bool isError);
+    void updateLog(const QString& message, bool isError = false);
+
 };
-#endif // MAINWINDOW_H

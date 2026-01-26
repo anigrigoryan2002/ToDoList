@@ -1,3 +1,4 @@
+debug/CommandFactory.o
 debug/CommandParser.o
 debug/AddTaskCommand.o
 debug/CompleteTaskCommand.o
