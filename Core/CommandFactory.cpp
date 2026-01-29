@@ -3,12 +3,18 @@
 #include "Commands/RemoveTaskCommand.h"
 #include "Commands/CompleteTaskCommand.h"
 #include "Commands/ListTasksCommand.h"
+#include "Commands/ExecuteFileCommand.h"
 
 Command* createCommand(
     const std::string& cmd,
     TaskManager& taskManager,
-    const std::string& name
+    const std::string& name,
+    CommandParser& parser
     ) {
+    if(cmd == "execute_file") {
+        return new ExecuteFileCommand(parser, name);
+    }
+
     if(cmd == "add_task")
         return new AddTaskCommand(taskManager, name);
 

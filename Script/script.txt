@@ -1,0 +1,4 @@
+add_task -name Homework
+add_task -name Gym
+complete_task -name Homework
+list_tasks

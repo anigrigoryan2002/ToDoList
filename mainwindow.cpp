@@ -15,45 +15,47 @@ MainWindow::MainWindow(QWidget *parent)
     , parser(taskManager)
 {
     setWindowTitle("ToDoList");
+
     QWidget* central = new QWidget(this);
     setCentralWidget(central);
 
     QVBoxLayout* mainLayout = new QVBoxLayout(central);
-
     setStyleSheet("background-color:#F0F0F0");
 
     titleLabel = new QLabel("ToDoList");
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet(
         "QLabel {"
-        "background-color: #E0E0E0;"
-        "color: #333333;"
-        "border-bottom: 2px solid #B0B0B0;"
-        "padding: 10px;"
-        "font-size: 20px;"
-        "font-weight: bold;"
+        "background-color:#F0F0F0;"
+        "color:black;"
+        "font-size:16px;"
+        "font-weight:bold;"
+        "padding:5px;"
+        "border:1px solid #B0B0B0;"
         "}"
         );
 
     mainLayout->addWidget(titleLabel);
+
     QLabel* tasksLabel = new QLabel("Tasks:");
-    tasksLabel->setStyleSheet("QLabel { color: black; font-weight: bold; }");
+    tasksLabel->setStyleSheet("color: black; font-weight: bold;");
     mainLayout->addWidget(tasksLabel);
 
     taskList = new QListWidget;
     taskList->setStyleSheet(
         "QListWidget { "
         "background: white; "
-        "color: black;"
-        "border: 1px solid #A9A9A9; "
-        "}"
+        "color: black; "
+        "border: 1px solid #B0B0B0; "
+        "} "
+        "QListWidget::item { padding: 6px; }"
         );
     mainLayout->addWidget(taskList);
 
-    connect(taskList, &QListWidget::itemChanged,
-            this, &MainWindow::handleTaskChecked);
+    connect(taskList, &QListWidget::itemChanged, this, &MainWindow::handleTaskChecked);
+
     QLabel* logLabel = new QLabel("Log:");
-    logLabel->setStyleSheet("QLabel { color: black; font-weight: bold; }");
+    logLabel->setStyleSheet("color: black; font-weight: bold;");
     mainLayout->addWidget(logLabel);
 
     logOutput = new QTextEdit;
@@ -62,12 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
         "QTextEdit { "
         "background: white; "
         "color: black;"
-        "border: 1px solid #A9A9A9; "
+        "border: 1px solid #B0B0B0; "
         "}"
         );
     mainLayout->addWidget(logOutput);
 
-    // ===== Command input + button =====
     QHBoxLayout* commandLayout = new QHBoxLayout;
 
     commandInput = new QLineEdit;
@@ -84,7 +85,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     executeButton = new QPushButton("Execute");
     executeButton->setStyleSheet(
-
         "QPushButton { "
         "background-color: white;"
         "color: black; "
@@ -105,11 +105,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
-
-MainWindow::~MainWindow()
-{
-}
-
 void MainWindow::handleTaskChecked(QListWidgetItem* item)
 {
     std::string taskName = item->text().toStdString();
@@ -121,10 +116,8 @@ void MainWindow::handleTaskChecked(QListWidgetItem* item)
         QString("Task %1 %2").arg(QString::fromStdString(taskName))
             .arg(checked ? "completed" : "added")
         );
-
     refreshTaskList();
 }
-
 
 void MainWindow::handleCommand()
 {
@@ -141,28 +134,7 @@ void MainWindow::handleCommand()
 
     refreshTaskList();
     commandInput->clear();
-
 }
-
-// void MainWindow::handleCommand()
-// {
-//     QString input = commandInput->text().trimmed();
-//     if(input.isEmpty()) return;
-
-//     std::string result = parser.execute(input.toStdString());
-
-//     bool isError =
-//         result.find("Invalid") != std::string::npos ||
-//         result.find("Unknown") != std::string::npos ||
-//         result.find("already") != std::string::npos ||
-//         result.find("not found") != std::string::npos;
-
-//     showStatus(QString::fromStdString(result), isError);
-
-//     commandInput->clear();
-//     refreshTaskList();
-// }
-
 
 void MainWindow::refreshTaskList()
 {
@@ -177,7 +149,7 @@ void MainWindow::refreshTaskList()
         item->setCheckState(
             task.isCompleted() ? Qt::Checked : Qt::Unchecked
             );
-
+        item->setForeground(Qt::black);
         taskList->addItem(item);
     }
     taskList->blockSignals(false);
@@ -196,6 +168,4 @@ void MainWindow::updateLog(const QString& message, bool isError)
                        .arg(QString::number(taskManager.pendingTasksCount()));
 
     logOutput->setHtml(html);
-
-
 }

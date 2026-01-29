@@ -13,6 +13,7 @@ SOURCES += \
     Core/CommandParser.cpp \
     Core/Commands/AddTaskCommand.cpp \
     Core/Commands/CompleteTaskCommand.cpp \
+    Core/Commands/ExecuteFileCommand.cpp \
     Core/Commands/ListTasksCommand.cpp \
     Core/Commands/RemoveTaskCommand.cpp \
     Core/Task.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     Core/CommandParser.h \
     Core/Commands/AddTaskCommand.h \
     Core/Commands/CompleteTaskCommand.h \
+    Core/Commands/ExecuteFileCommand.h \
     Core/Commands/ListTasksCommand.h \
     Core/Commands/RemoveTaskCommand.h \
     Core/Task.h \
@@ -39,3 +41,7 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    .gitignore \
+    README.md

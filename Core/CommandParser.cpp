@@ -1,29 +1,66 @@
 #include "CommandParser.h"
-#include "Command.h"
-#include "Commands/AddTaskCommand.h"
-#include "Commands/RemoveTaskCommand.h"
-#include "Commands/CompleteTaskCommand.h"
-#include "Commands/ListTasksCommand.h"
 #include "CommandFactory.h"
 #include <sstream>
-#include <memory>
 
-CommandParser::CommandParser(TaskManager& manager): taskManager(manager) {}
+CommandParser::CommandParser(TaskManager& manager)
+    : taskManager(manager) {}
 
-std::string CommandParser::execute(const std::string& input) {
+std::string CommandParser::execute(const std::string& input)
+{
     std::istringstream iss(input);
-    std::string cmd, flag, name;
-    iss >> cmd >> flag >> name;
+    std::string cmd;
+    iss >> cmd;
 
-    if(cmd != "list_tasks" && (flag != "-name" || name.empty()))
-        return "Invalid syntax";
+    if(cmd.empty())
+        return "";
 
-    Command* command = createCommand(cmd, taskManager, name);
-    if(!command)
-        return "Unknown command";
+    // -------------------
+    // list_tasks
+    if(cmd == "list_tasks") {
+        Command* c = createCommand(cmd, taskManager, "", *this);
+        std::string r = c->execute();
+        delete c;
+        return r;
+    }
 
-    std::string result = command->execute();
-    delete command;
+    // -------------------
+    // execute_file - batch execution
+    if(cmd == "execute_file") {
+        std::string flag, filepath;
+        iss >> flag;
+        std::getline(iss, filepath);
 
-    return result;
+        if(!filepath.empty() && filepath[0]==' ')
+            filepath.erase(0,1); // trim leading space
+
+        if(flag != "-file_path" || filepath.empty())
+            return "Error: Invalid syntax";
+
+        Command* c = createCommand(cmd, taskManager, filepath, *this);
+        if(!c)
+            return "Error: Unknown command";
+
+        std::string r = c->execute();
+        delete c;
+        return r;
+    }
+
+    // -------------------
+    // add_task / remove_task / complete_task
+    std::string flag, name;
+    iss >> flag;
+    std::getline(iss, name);
+    if(!name.empty() && name[0]==' ')
+        name.erase(0,1); // trim
+
+    if(flag != "-name") return "Error: Invalid syntax";
+    if(name.empty()) return "Error: Task name is empty";
+
+    Command* c = createCommand(cmd, taskManager, name, *this);
+    if(!c)
+        return "Error: Unknown command";
+
+    std::string r = c->execute();
+    delete c;
+    return r;
 }

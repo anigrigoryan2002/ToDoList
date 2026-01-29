@@ -7,11 +7,6 @@
 
 #include "core/TaskManager.h"
 #include "core/CommandParser.h"
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -19,7 +14,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override = default;
 private slots:
     void handleCommand();
     void handleTaskChecked(QListWidgetItem* item);
@@ -33,7 +28,5 @@ private:
     QPushButton* executeButton;
     TaskManager taskManager;
     CommandParser parser{taskManager};
-    void showStatus(const QString& message, bool isError);
     void updateLog(const QString& message, bool isError = false);
-
 };
